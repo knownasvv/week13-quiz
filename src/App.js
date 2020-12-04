@@ -1,8 +1,10 @@
-import {Typography, Box, Button, Grid, Container} from '@material-ui/core';
+import {Typography, Box, Button, Grid} from '@material-ui/core';
 import React from "react";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TimerIcon from '@material-ui/icons/Timer';
 
 const theme = createMuiTheme({
   typography:{
@@ -12,6 +14,26 @@ const theme = createMuiTheme({
       'sans-serif'
     ],
   },
+  palette: {
+    background: {
+      default: "#fffff"
+    }
+  }
+});
+
+const boomTheme = createMuiTheme({
+  typography:{
+    fontFamily: [
+      'Work Sans', 
+      'Rubik',
+      'sans-serif'
+    ],
+  },
+  palette: {
+    background: {
+      default: "#e57373"
+    }
+  }
 });
 
 class App extends React.Component {
@@ -83,7 +105,10 @@ class App extends React.Component {
         minutes: 0,
         displayButton: 0
       },
-      ()=>{this.countTimer()})
+      ()=>{
+        clearInterval(this.intervalTimer); 
+        this.countTimer();
+      })
     }
 
     countTimer(){
@@ -134,61 +159,66 @@ class App extends React.Component {
   render(){
     const { hours, minutes, seconds, hours2, minutes2, seconds2 } = this.state;
     return (
-      <ThemeProvider theme={theme}>
-          <Typography variant="h3" align="center">Simple Countdown</Typography>
-          <Box textAlign="center" display={this.state.displayStats ? "none": "block"}>
-            <Grid container spacing={1} direction="column" justify="center" alignItems="center">
-              <Grid container item xs={5} spacing={1}>
-                  <Grid item xs onClick={this.hoursUp}><ArrowDropUpIcon fontSize="large"/></Grid>
-                  <Grid item xs></Grid>
-                  <Grid item xs onClick={this.minutesUp}><ArrowDropUpIcon fontSize="large"/></Grid>
-                  <Grid item xs></Grid>
-                  <Grid item xs onClick={this.secondsUp}><ArrowDropUpIcon fontSize="large"/></Grid>
+      <ThemeProvider theme={hours2 === 0 && minutes2 === 0 && seconds2 === 0 && this.state.displayStats === true ?  boomTheme : theme}>
+        <CssBaseline />
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Typography variant="h3" align="center"><TimerIcon fontSize="large"/> Simple Countdown <TimerIcon fontSize="large"/><br/></Typography>
+          <Box display={this.state.displayStats ? "none": "block"}>
+            <Grid container spacing={5} direction="row" justify="center" alignItems="center"  >
+              <Grid container item xs={3} direction="column" justify="center" alignItems="center">
+                <Grid item xs onClick={this.hoursUp}><ArrowDropUpIcon fontSize="large"/></Grid>
+                <Grid item xs>
+                    <Typography variant="h4">{hours < 10 ? `0${hours}` : hours}</Typography>
+                </Grid>
+                <Grid item xs onClick={this.hoursDown}><ArrowDropDownIcon fontSize="large"/></Grid>
               </Grid>
-              <Grid container item xs={5} spacing={1}>
-                  <Grid item xs>
-                      <Typography>{hours < 10 ? `0${hours}` : hours}</Typography>
-                  </Grid>
-                  <Grid item xs><Typography>:</Typography></Grid>
-                  <Grid item xs>
-                      <Typography>{minutes < 10 ? `0${minutes}` : minutes}</Typography>
-                  </Grid>
-                  <Grid item xs><Typography>:</Typography></Grid>
-                  <Grid item xs>
-                      <Typography>{seconds < 10 ? `0${seconds}` : seconds}</Typography>
-                  </Grid>
+              <Grid container item xs={1}>
+                <Grid item><Typography variant="h4">:</Typography></Grid>
               </Grid>
-              <Grid container item xs={5} spacing={1}>
-                  <Grid item xs onClick={this.hoursDown}><ArrowDropDownIcon fontSize="large"/></Grid>
-                  <Grid item xs></Grid>
-                  <Grid item xs onClick={this.minutesDown}><ArrowDropDownIcon fontSize="large"/></Grid>
-                  <Grid item xs></Grid>
-                  <Grid item xs onClick={this.secondsDown}><ArrowDropDownIcon fontSize="large"/></Grid>
+              <Grid container item xs={3} direction="column" justify="center" alignItems="center">
+                <Grid item xs onClick={this.minutesUp}><ArrowDropUpIcon fontSize="large"/></Grid>
+                <Grid item xs>
+                    <Typography variant="h4">{minutes < 10 ? `0${minutes}` : minutes}</Typography>
+                </Grid>
+                <Grid item xs onClick={this.minutesDown}><ArrowDropDownIcon fontSize="large"/></Grid>
               </Grid>
-            </Grid>
-            <Button variant="outlined" color="primary" onClick={this.changeDisplay}>START</Button>
+              <Grid container item xs={1}>
+                <Grid item><Typography variant="h4">:</Typography></Grid>
+              </Grid>
+              <Grid container item xs={3} direction="column" justify="center" alignItems="center">
+                <Grid item xs onClick={this.secondsUp}><ArrowDropUpIcon fontSize="large"/></Grid>
+                <Grid item xs>
+                    <Typography variant="h4">{seconds < 10 ? `0${seconds}` : seconds}</Typography>
+                </Grid>
+                <Grid item xs onClick={this.secondsDown}><ArrowDropDownIcon fontSize="large"/></Grid>
+              </Grid>
+              <Button variant="outlined" color="primary" onClick={this.changeDisplay}>START</Button>
+            </Grid> 
           </Box>
           <Box textAlign="center" display={this.state.displayStats ? "block": "none"}>
-          {hours2 === 0 && minutes2 === 0 && seconds2 === 0 ? 
-              <Container>
+            {hours2 === 0 && minutes2 === 0 && seconds2 === 0 && this.state.displayStats === true ? 
+                <>
                   <Typography variant="h5">BOOOM!!!!!!</Typography>
-                  <Grid container direction="row" justify="center" alignItems="center">
-                      <Grid item xs={3}>
-                          <Button variant="outlined" color="secondary" onClick={this.changeDisplay}>Reset</Button>
+                  <Button variant="contained" color="secondary" onClick={this.changeDisplay}>Reset</Button>
+                </>
+                : 
+                <>
+                  <Typography align="center">Time Remaining</Typography>
+                    <Grid container spacing={1} direction="row" justify="center" alignItems="center">
+                      <Grid item xs>
+                          <Typography variant="h4">{hours2 < 10 ? `0${hours2}` : hours2}</Typography>
                       </Grid>
-                  </Grid>
-              </Container>
-              : 
-              <Container>
-                <Typography align="center">
-                    Time Remaining<br/>
-                    {hours2 < 10 ? `0${hours2}` : hours2}:
-                    {minutes2 < 10 ? `0${minutes2}` : minutes2}:
-                    {seconds2 < 10 ? `0${seconds2}` : seconds2}
-                    <br/>
-                    </Typography>
-                    <Grid container direction="row" justify="center" alignItems="center">
-                      <Grid item xs={3}>
+                      <Grid item xs><Typography variant="h4">:</Typography></Grid>
+                      <Grid item xs>
+                          <Typography variant="h4">{minutes2 < 10 ? `0${minutes2}` : minutes2}</Typography>
+                      </Grid>
+                      <Grid item xs><Typography variant="h4">:</Typography></Grid>
+                      <Grid item xs>
+                          <Typography variant="h4">{seconds2 < 10 ? `0${seconds2}` : seconds2}</Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid container spacing={5} direction="row" justify="center" alignItems="center">
+                      <Grid item xs={5}>
                           <Box display={this.state.displayButton ? "none": "block"}>
                             <Button variant="outlined" color="primary"  onClick={this.pauseTimer}>Pause</Button>
                           </Box>
@@ -196,13 +226,14 @@ class App extends React.Component {
                             <Button variant="outlined" color="primary" onClick={this.resumeTimer}>Resume</Button>
                           </Box>
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={5}>
                           <Button variant="outlined" color="secondary" onClick={this.changeDisplay}>Reset</Button>
                       </Grid>
                   </Grid>
-              </Container>
-            }
-          </Box>
+                </>
+              }
+            </Box>
+        </Grid>
       </ThemeProvider>
     );
   }
