@@ -1,6 +1,5 @@
 {
   "name": "week13-quiz",
-  "homepage": "https://github.com/knownasvv/week13-quiz.git",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
