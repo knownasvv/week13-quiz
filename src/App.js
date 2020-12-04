@@ -204,32 +204,32 @@ class App extends React.Component {
                 : 
                 <>
                   <Typography align="center">Time Remaining</Typography>
-                    <Grid container spacing={1} direction="row" justify="center" alignItems="center">
-                      <Grid item xs>
-                          <Typography variant="h4">{hours2 < 10 ? `0${hours2}` : hours2}</Typography>
-                      </Grid>
-                      <Grid item xs><Typography variant="h4">:</Typography></Grid>
-                      <Grid item xs>
-                          <Typography variant="h4">{minutes2 < 10 ? `0${minutes2}` : minutes2}</Typography>
-                      </Grid>
-                      <Grid item xs><Typography variant="h4">:</Typography></Grid>
-                      <Grid item xs>
-                          <Typography variant="h4">{seconds2 < 10 ? `0${seconds2}` : seconds2}</Typography>
-                      </Grid>
+                  <Grid container spacing={5} direction="row" justify="center" alignItems="center">
+                    <Grid item xs={3}>
+                        <Typography variant="h4">{hours2 < 10 ? `0${hours2}` : hours2}</Typography>
                     </Grid>
-                    <Grid container spacing={5} direction="row" justify="center" alignItems="center">
-                      <Grid item xs={5}>
-                          <Box display={this.state.displayButton ? "none": "block"}>
-                            <Button variant="outlined" color="primary"  onClick={this.pauseTimer}>Pause</Button>
-                          </Box>
-                          <Box display={this.state.displayButton ? "block": "none"}>
-                            <Button variant="outlined" color="primary" onClick={this.resumeTimer}>Resume</Button>
-                          </Box>
-                      </Grid>
-                      <Grid item xs={5}>
-                          <Button variant="outlined" color="secondary" onClick={this.changeDisplay}>Reset</Button>
-                      </Grid>
+                    <Grid item xs={1}><Typography variant="h4">:</Typography></Grid>
+                    <Grid item xs={3}>
+                        <Typography variant="h4">{minutes2 < 10 ? `0${minutes2}` : minutes2}</Typography>
+                    </Grid>
+                    <Grid item xs={1}><Typography variant="h4">:</Typography></Grid>
+                    <Grid item xs={3}>
+                        <Typography variant="h4">{seconds2 < 10 ? `0${seconds2}` : seconds2}</Typography>
+                    </Grid>
                   </Grid>
+                  <Grid container spacing={5} direction="row" justify="center" alignItems="center">
+                    <Grid item xs={5}>
+                        <Box display={this.state.displayButton ? "none": "block"}>
+                          <Button variant="outlined" color="primary"  onClick={this.pauseTimer}>Pause</Button>
+                        </Box>
+                        <Box display={this.state.displayButton ? "block": "none"}>
+                          <Button variant="outlined" color="primary" onClick={this.resumeTimer}>Resume</Button>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={5}>
+                        <Button variant="outlined" color="secondary" onClick={this.changeDisplay}>Reset</Button>
+                    </Grid>
+                </Grid>
                 </>
               }
             </Box>
